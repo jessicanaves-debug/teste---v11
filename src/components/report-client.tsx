@@ -24,6 +24,7 @@ interface Metrics {
 interface HeatmapEntry {
   nome: string;
   score: string;
+  emoji: string; // ✅ 🚫 🔔 🤝 ou ""
 }
 
 interface ContentionAction {
@@ -113,7 +114,7 @@ export function BrandBiddingClient() {
   const [heatmapAnalysis, setHeatmapAnalysis] = useState("");
 
   // Heatmap
-  const [heatmap, setHeatmap] = useState<HeatmapEntry[]>([{ nome: "", score: "" }]);
+  const [heatmap, setHeatmap] = useState<HeatmapEntry[]>([{ nome: "", score: "", emoji: "" }]);
 
   // Imagens + análises da IA
   const [imageAgressores, setImageAgressores] = useState<File | null>(null);
@@ -251,7 +252,7 @@ export function BrandBiddingClient() {
   function updateHeatmap(i: number, field: keyof HeatmapEntry, value: string) {
     setHeatmap((prev) => prev.map((item, idx) => (idx === i ? { ...item, [field]: value } : item)));
   }
-  function addHeatmapEntry() { setHeatmap((prev) => [...prev, { nome: "", score: "" }]); }
+  function addHeatmapEntry() { setHeatmap((prev) => [...prev, { nome: "", score: "", emoji: "" }]); }
   function removeHeatmapEntry(i: number) { setHeatmap((prev) => prev.filter((_, idx) => idx !== i)); }
 
   function updateContention(i: number, field: keyof ContentionAction, value: string) {
@@ -418,14 +419,40 @@ export function BrandBiddingClient() {
             <label className="block text-xs text-muted-foreground mb-2">
               Top agressores do heatmap <span className="font-normal">(opcional)</span>
             </label>
+            {/* Legenda dos emojis */}
+            <div className="flex flex-wrap gap-2 mb-3">
+              {[
+                { emoji: "✅", label: "Sucesso" },
+                { emoji: "🚫", label: "Whitelist" },
+                { emoji: "🔔", label: "Em tratativa" },
+                { emoji: "🤝", label: "Parceiro" },
+              ].map(({ emoji, label }) => (
+                <span key={emoji} className="inline-flex items-center gap-1 text-[11px] text-muted-foreground bg-secondary/60 border border-border/60 rounded-full px-2 py-0.5">
+                  {emoji} {label}
+                </span>
+              ))}
+            </div>
             <div className="space-y-2">
               {heatmap.map((h, i) => (
-                <div key={i} className="flex gap-2">
+                <div key={i} className="flex gap-2 items-center">
+                  {/* Seletor de emoji — coluna esquerda, igual ao modelo */}
+                  <select
+                    value={h.emoji}
+                    onChange={(e) => updateHeatmap(i, "emoji", e.target.value)}
+                    className="w-14 shrink-0 rounded-lg border border-border px-1 py-2 text-base text-center focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary bg-white"
+                    title="Classificação"
+                  >
+                    <option value="">—</option>
+                    <option value="✅">✅</option>
+                    <option value="🚫">🚫</option>
+                    <option value="🔔">🔔</option>
+                    <option value="🤝">🤝</option>
+                  </select>
                   <input
                     type="text" value={h.score}
                     onChange={(e) => updateHeatmap(i, "score", e.target.value)}
                     placeholder="Score"
-                    className="w-28 shrink-0 rounded-lg border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                    className="w-24 shrink-0 rounded-lg border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   />
                   <input
                     type="text" value={h.nome}
@@ -756,13 +783,14 @@ export function BrandBiddingClient() {
                   <Sparkles size={10} /> Análise gerada por IA
                 </p>
               )}
+              {/* Análise ACIMA do gráfico — igual ao modelo */}
               {analyzingHeatmap ? (
-                <div className="flex items-center gap-2 text-sm text-muted-foreground italic">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground italic mb-3">
                   <Loader2 size={14} className="animate-spin text-emerald" />
                   Gerando análise com IA...
                 </div>
               ) : (
-                <p className="text-sm text-foreground leading-relaxed mb-3">
+                <p className="text-sm text-foreground leading-relaxed mb-3 italic">
                   {heatmapAnalysis || (
                     <span className="text-muted-foreground italic">
                       Cole um print do heatmap no passo 1 para gerar a análise.
@@ -794,16 +822,20 @@ export function BrandBiddingClient() {
                   </div>
                 </details>
               )}
+              {/* Gráfico */}
               {imageHeatmapPreview && (
                 <div className="rounded-xl overflow-hidden border border-border mb-3">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={imageHeatmapPreview} alt="Heatmap" className="w-full object-contain max-h-56" />
                 </div>
               )}
+              {/* Lista com emojis na coluna esquerda — igual ao modelo */}
               {heatmap.some((h) => h.nome.trim()) && (
                 <div className="space-y-1.5">
                   {heatmap.filter((h) => h.nome.trim()).map((h, i) => (
                     <div key={i} className="flex items-center gap-3 px-3 py-1.5 rounded-lg bg-secondary/40 border border-border/60">
+                      {/* Emoji na coluna esquerda */}
+                      <span className="text-base w-6 shrink-0 text-center">{h.emoji || "·"}</span>
                       <span className="text-xs font-mono font-bold text-primary w-14 shrink-0">{h.score}</span>
                       <span className="text-sm text-foreground">{h.nome}</span>
                     </div>
