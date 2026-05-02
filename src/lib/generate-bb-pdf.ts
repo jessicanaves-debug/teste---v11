@@ -13,6 +13,7 @@ interface Metrics {
 interface HeatmapEntry {
   nome: string;
   score: string;
+  emoji?: string;
 }
 
 interface ContentionAction {
@@ -265,6 +266,7 @@ export async function generateBbPdf(params: GenerateBbPdfParams): Promise<void> 
   ensureSpace(15);
   addSectionTitle("3. Análise de Ofensores (Heatmap)");
 
+  // Análise ACIMA do gráfico — igual ao modelo
   if (heatmapAnalysis) {
     addParagraph(heatmapAnalysis);
   }
@@ -272,11 +274,13 @@ export async function generateBbPdf(params: GenerateBbPdfParams): Promise<void> 
   if (imageHeatmap) {
     try {
       const dataUrl = await fileToDataUrl(imageHeatmap);
-      const imgWidth = pageWidth - 2 * margin;
-      const imgHeight = 65;
-      ensureSpace(imgHeight + 4);
-      doc.addImage(dataUrl, "PNG", margin, y, imgWidth, imgHeight);
-      y += imgHeight + 6;
+      const imgW = pageWidth - 2 * margin;
+      const imgH = 65;
+      // Centralização: calcula x para centralizar a imagem
+      const imgX = margin + (imgW - imgW) / 2; // sempre margin, mas explícito
+      ensureSpace(imgH + 4);
+      doc.addImage(dataUrl, "PNG", imgX, y, imgW, imgH);
+      y += imgH + 6;
     } catch (e) {
       console.warn("Erro ao adicionar imagem do heatmap:", e);
     }
@@ -284,11 +288,35 @@ export async function generateBbPdf(params: GenerateBbPdfParams): Promise<void> 
 
   if (heatmap.length > 0) {
     ensureSpace(10);
+    // Legenda dos emojis usados (apenas os que aparecem nos dados)
+    const usedEmojis = new Set(heatmap.map((h) => h.emoji).filter(Boolean));
+    const emojiLabels: Record<string, string> = {
+      "✅": "Sucesso",
+      "🚫": "Whitelist",
+      "🔔": "Em tratativa",
+      "🤝": "Parceiro",
+    };
+    if (usedEmojis.size > 0) {
+      doc.setFontSize(8);
+      doc.setFont("helvetica", "italic");
+      doc.setTextColor(...MUTED);
+      const legendParts = Array.from(usedEmojis)
+        .map((e) => `${e} ${emojiLabels[e as string] ?? e}`)
+        .join("   ");
+      doc.text(`Legenda: ${legendParts}`, margin, y);
+      y += 5;
+    }
+    // Tabela com emoji na coluna esquerda
     autoTable(doc, {
       startY: y,
-      head: [["Score", "Domínio"]],
-      body: heatmap.map((h) => [h.score, h.nome]),
+      head: [["", "Score", "Domínio"]],
+      body: heatmap.map((h) => [h.emoji || "", h.score, h.nome]),
       headStyles: { fillColor: BRANDDI_DARK, textColor: 255, fontSize: 9 },
+      columnStyles: {
+        0: { halign: "center", cellWidth: 12, fontSize: 11 }, // emoji
+        1: { halign: "center", cellWidth: 22 },               // score
+        2: { halign: "left" },                                // domínio
+      },
       theme: "striped",
       margin: { left: margin, right: margin },
       didDrawPage: () => {
