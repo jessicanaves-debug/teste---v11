@@ -763,12 +763,12 @@ export function BrandBiddingClient() {
               </div>
               {/* Imagem FULL-WIDTH real — background-image garante 100% sem corte */}
               {imageAgressoresPreview && (
-                <div style={{ width: "100%", backgroundColor: "#ffffff", padding: "16px 0", borderTop: "1px solid #e2e8f0", borderBottom: "1px solid #e2e8f0", marginTop: "8px" }}>
+                <div style={{ width: "100%", backgroundColor: "#ffffff", display: "flex", justifyContent: "center", alignItems: "center", padding: "12px", marginTop: "8px", borderTop: "1px solid #e2e8f0", borderBottom: "1px solid #e2e8f0" }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={imageAgressoresPreview}
                     alt="Gráfico de agressores"
-                    style={{ display: "block", margin: "0 auto", maxWidth: "100%", height: "auto", imageRendering: "high-quality" }}
+                    style={{ maxWidth: "100%", height: "auto", objectFit: "contain", display: "block" }}
                   />
                 </div>
               )}
@@ -838,12 +838,12 @@ export function BrandBiddingClient() {
               </div>
               {/* Imagem FULL-WIDTH real */}
               {imageHeatmapPreview && (
-                <div style={{ width: "100%", backgroundColor: "#ffffff", padding: "16px 0", borderTop: "1px solid #e2e8f0", borderBottom: "1px solid #e2e8f0", marginTop: "8px", marginBottom: "12px" }}>
+                <div style={{ width: "100%", backgroundColor: "#ffffff", display: "flex", justifyContent: "center", alignItems: "center", padding: "12px", marginTop: "8px", marginBottom: "12px", borderTop: "1px solid #e2e8f0", borderBottom: "1px solid #e2e8f0" }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={imageHeatmapPreview}
                     alt="Heatmap"
-                    style={{ display: "block", margin: "0 auto", maxWidth: "100%", height: "auto", imageRendering: "high-quality" }}
+                    style={{ maxWidth: "100%", height: "auto", objectFit: "contain", display: "block" }}
                   />
                 </div>
               )}
