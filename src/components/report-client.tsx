@@ -756,9 +756,14 @@ export function BrandBiddingClient() {
                 </details>
               )}
               {imageAgressoresPreview && (
-                <div className="rounded-xl overflow-hidden border border-border">
+                <div className="rounded-xl overflow-hidden border border-border bg-white">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={imageAgressoresPreview} alt="Gráfico de agressores" className="w-full object-contain max-h-56" />
+                  <img
+                    src={imageAgressoresPreview}
+                    alt="Gráfico de agressores"
+                    className="w-full h-auto object-contain"
+                    style={{ display: "block" }}
+                  />
                 </div>
               )}
             </div>
@@ -824,9 +829,14 @@ export function BrandBiddingClient() {
               )}
               {/* Gráfico */}
               {imageHeatmapPreview && (
-                <div className="rounded-xl overflow-hidden border border-border mb-3">
+                <div className="rounded-xl overflow-hidden border border-border mb-3 bg-white">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={imageHeatmapPreview} alt="Heatmap" className="w-full object-contain max-h-56" />
+                  <img
+                    src={imageHeatmapPreview}
+                    alt="Heatmap"
+                    className="w-full h-auto object-contain"
+                    style={{ display: "block" }}
+                  />
                 </div>
               )}
               {/* Lista com emojis na coluna esquerda — igual ao modelo */}
