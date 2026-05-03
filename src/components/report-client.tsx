@@ -56,20 +56,20 @@ function StepIndicator({ current }: { current: number }) {
               className={cn(
                 "w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold border-2 transition-all",
                 current > step.id
-                  ? "bg-primary border-primary text-white"
+                  ? "bg-cyan-500 border-cyan-500 text-white"
                   : current === step.id
-                  ? "border-primary text-primary bg-primary/5"
-                  : "border-border text-muted-foreground bg-white"
+                  ? "border-cyan-400 text-cyan-400 bg-cyan-400/10"
+                  : "border-white/20 text-white/30 bg-white/5"
               )}
             >
               {current > step.id ? <Check size={14} /> : step.id}
             </div>
-            <span className={cn("text-xs font-medium whitespace-nowrap", current === step.id ? "text-primary" : "text-muted-foreground")}>
+            <span className={cn("text-xs font-medium whitespace-nowrap", current === step.id ? "text-cyan-400" : "text-white/40")}>
               {step.label}
             </span>
           </div>
           {i < STEPS.length - 1 && (
-            <div className={cn("h-0.5 w-16 mx-1 mt-[-14px] transition-all", current > step.id ? "bg-primary" : "bg-border")} />
+            <div className={cn("h-0.5 w-16 mx-1 mt-[-14px] transition-all", current > step.id ? "bg-cyan-500" : "bg-white/10")} />
           )}
         </div>
       ))}
@@ -80,10 +80,10 @@ function StepIndicator({ current }: { current: number }) {
 function SectionLabel({ number, title }: { number: number; title: string }) {
   return (
     <div className="flex items-center gap-2 mb-3">
-      <div className="w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center">
+      <div className="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 text-xs font-bold flex items-center justify-center border border-cyan-500/30">
         {number}
       </div>
-      <h3 className="font-semibold text-sm text-foreground">{title}</h3>
+      <h3 className="font-semibold text-sm text-white">{title}</h3>
     </div>
   );
 }
@@ -294,31 +294,31 @@ export function BrandBiddingClient() {
     return (
       <div className="space-y-5">
         {/* Identificação */}
-        <div className="rounded-xl border border-border bg-white p-5">
+        <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
           <SectionLabel number={0} title="Identificação" />
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs text-muted-foreground mb-1">
+              <label className="block text-xs text-cyan-300/80 font-semibold mb-1">
                 Cliente <span className="font-normal">(opcional)</span>
               </label>
               <input
                 type="text" value={clientName} onChange={(e) => setClientName(e.target.value)}
                 placeholder="Nome do cliente..."
-                className="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/30"
               />
             </div>
             <div>
-              <label className="block text-xs text-muted-foreground mb-1">Período</label>
+              <label className="block text-xs text-cyan-300/80 font-semibold mb-1">Período</label>
               <input
                 type="text" value={periodLabel} onChange={(e) => setPeriodLabel(e.target.value)}
                 placeholder="Ex: 22 Abr - 28 Abr"
-                className="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/30"
               />
             </div>
           </div>
           <div className="mt-3 flex items-end gap-4">
             <div>
-              <label className="block text-xs text-muted-foreground mb-1">Tipo</label>
+              <label className="block text-xs text-cyan-300/80 font-semibold mb-1">Tipo</label>
               <div className="flex gap-2">
                 {(["Semanal", "Quinzenal"] as const).map((t) => (
                   <button
@@ -330,8 +330,8 @@ export function BrandBiddingClient() {
                     className={cn(
                       "px-4 py-1.5 rounded-lg text-sm font-medium border transition-all",
                       reportType === t
-                        ? "bg-primary text-white border-primary"
-                        : "border-border text-muted-foreground hover:border-primary/40"
+                        ? "bg-cyan-500 text-white border-cyan-500"
+                        : "border-white/20 text-white/40 hover:border-cyan-400/40"
                     )}
                   >
                     {t}
@@ -340,7 +340,7 @@ export function BrandBiddingClient() {
               </div>
             </div>
             <div className="w-28">
-              <label className="block text-xs text-muted-foreground mb-1">Nº de dias</label>
+              <label className="block text-xs text-cyan-300/80 font-semibold mb-1">Nº de dias</label>
               <input
                 type="number" min="1" value={periodDays}
                 onChange={(e) => setPeriodDays(e.target.value)}
@@ -351,9 +351,9 @@ export function BrandBiddingClient() {
         </div>
 
         {/* 1. Métricas */}
-        <div className="rounded-xl border border-border bg-white p-5">
+        <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
           <SectionLabel number={1} title="Métricas Consolidadas (Todo o período)" />
-          <p className="text-xs text-muted-foreground mb-3 italic">
+          <p className="text-xs text-white/50 mb-3 italic">
             A tabela a seguir resume os principais indicadores de Brand Bidding.
           </p>
           <div className="grid grid-cols-3 gap-3">
@@ -368,7 +368,7 @@ export function BrandBiddingClient() {
               ] as { key: keyof Metrics; label: string }[]
             ).map(({ key, label }) => (
               <div key={key}>
-                <label className="block text-xs text-muted-foreground mb-1">{label}</label>
+                <label className="block text-xs text-cyan-300/80 font-semibold mb-1">{label}</label>
                 <input
                   type="number" min="0" value={metrics[key]}
                   onChange={(e) => setMetrics((prev) => ({ ...prev, [key]: e.target.value }))}
@@ -381,7 +381,7 @@ export function BrandBiddingClient() {
         </div>
 
         {/* 2. Agressores */}
-        <div className="rounded-xl border border-border bg-white p-5">
+        <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
           <SectionLabel number={2} title="Agressores Identificados" />
           <ChartSection
             slot="agressores"
@@ -399,7 +399,7 @@ export function BrandBiddingClient() {
         </div>
 
         {/* 3. Heatmap */}
-        <div className="rounded-xl border border-border bg-white p-5">
+        <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
           <SectionLabel number={3} title="Análise de Ofensores (Heatmap)" />
           <ChartSection
             slot="heatmap"
@@ -416,7 +416,7 @@ export function BrandBiddingClient() {
           />
 
           <div className="mt-4">
-            <label className="block text-xs text-muted-foreground mb-2">
+            <label className="block text-xs text-white/50 mb-2">
               Top agressores do heatmap <span className="font-normal">(opcional)</span>
             </label>
             {/* Legenda dos emojis */}
@@ -427,7 +427,7 @@ export function BrandBiddingClient() {
                 { emoji: "🔔", label: "Em tratativa" },
                 { emoji: "🤝", label: "Parceiro" },
               ].map(({ emoji, label }) => (
-                <span key={emoji} className="inline-flex items-center gap-1 text-[11px] text-muted-foreground bg-secondary/60 border border-border/60 rounded-full px-2 py-0.5">
+                <span key={emoji} className="inline-flex items-center gap-1 text-[11px] text-white/50 bg-white/5 border border-white/10 rounded-full px-2 py-0.5">
                   {emoji} {label}
                 </span>
               ))}
@@ -463,7 +463,7 @@ export function BrandBiddingClient() {
                   {heatmap.length > 1 && (
                     <button
                       onClick={() => removeHeatmapEntry(i)}
-                      className="w-9 h-9 flex items-center justify-center rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/5 border border-border transition-colors"
+                      className="w-9 h-9 flex items-center justify-center rounded-lg text-white/30 hover:text-red-400 hover:bg-red-500/10 border border-white/10 transition-colors"
                     >
                       <Trash2 size={14} />
                     </button>
@@ -472,7 +472,7 @@ export function BrandBiddingClient() {
               ))}
               <button
                 onClick={addHeatmapEntry}
-                className="flex items-center gap-2 text-sm text-primary hover:text-primary/80 font-medium transition-colors"
+                className="flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300 font-medium transition-colors"
               >
                 <Plus size={14} />Adicionar agressor
               </button>
@@ -483,7 +483,7 @@ export function BrandBiddingClient() {
         <div className="flex justify-end pt-1">
           <button
             onClick={() => setStep(2)}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold bg-primary text-white hover:bg-primary/90 transition-all shadow-sm"
+            className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:opacity-90 transition-all shadow-sm"
           >
             Próximo<ChevronRight size={15} />
           </button>
@@ -500,9 +500,9 @@ export function BrandBiddingClient() {
     return (
       <div className="space-y-5">
         {/* 4. Contenção */}
-        <div className="rounded-xl border border-border bg-white p-5">
+        <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
           <SectionLabel number={4} title="Status das Ações de Contenção" />
-          <p className="text-xs text-muted-foreground mb-3 italic">
+          <p className="text-xs text-white/50 mb-3 italic">
             Detalhe do andamento das principais tratativas com agressores:
           </p>
           <div className="space-y-3">
@@ -523,27 +523,27 @@ export function BrandBiddingClient() {
                 {contentionActions.length > 1 && (
                   <button
                     onClick={() => removeContention(i)}
-                    className="w-9 h-9 flex items-center justify-center rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/5 border border-border transition-colors"
+                    className="w-9 h-9 flex items-center justify-center rounded-lg text-white/30 hover:text-red-400 hover:bg-red-500/10 border border-white/10 transition-colors"
                   >
                     <Trash2 size={14} />
                   </button>
                 )}
               </div>
             ))}
-            <button onClick={addContention} className="flex items-center gap-2 text-sm text-primary hover:text-primary/80 font-medium transition-colors">
+            <button onClick={addContention} className="flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300 font-medium transition-colors">
               <Plus size={14} />Adicionar agressor
             </button>
           </div>
         </div>
 
         {/* 5. Standby - vem ANTES de Aprovação/Resolvidos, conforme modelo */}
-        <div className="rounded-xl border border-border bg-white p-5">
+        <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
           <SectionLabel number={5} title="Casos em Standby e em Notificação Extrajudicial" />
-          <p className="text-xs text-muted-foreground mb-3 italic">
+          <p className="text-xs text-white/50 mb-3 italic">
             Os seguintes casos estão em standby ou em processo de notificação extrajudicial, após esgotamento das tentativas de contato direto:
           </p>
           {standbyCases.length === 0 && (
-            <p className="text-xs text-muted-foreground italic mb-3">Nenhum caso no período.</p>
+            <p className="text-xs text-white/50 italic mb-3">Nenhum caso no período.</p>
           )}
           <div className="space-y-3">
             {standbyCases.map((item, i) => (
@@ -569,26 +569,26 @@ export function BrandBiddingClient() {
                   />
                   <button
                     onClick={() => removeStandby(i)}
-                    className="w-9 h-9 flex items-center justify-center rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/5 border border-border transition-colors shrink-0"
+                    className="w-9 h-9 flex items-center justify-center rounded-lg text-white/30 hover:text-red-400 hover:bg-red-500/10 border border-white/10 transition-colors shrink-0"
                   >
                     <Trash2 size={14} />
                   </button>
                 </div>
               </div>
             ))}
-            <button onClick={addStandby} className="flex items-center gap-2 text-sm text-primary hover:text-primary/80 font-medium transition-colors">
+            <button onClick={addStandby} className="flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300 font-medium transition-colors">
               <Plus size={14} />Adicionar caso
             </button>
           </div>
         </div>
 
         {/* 6. Aguardando aprovação */}
-        <div className="rounded-xl border border-border bg-white p-5">
+        <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
           <SectionLabel number={6} title="Agressores Aguardando Aprovação" />
-          <p className="text-xs text-muted-foreground mb-2 italic">
+          <p className="text-xs text-white/50 mb-2 italic">
             A lista abaixo inclui os agressores recém-identificados que aguardam aprovação para o início das tratativas.
           </p>
-          <p className="text-xs text-muted-foreground mb-2">Um domínio por linha.</p>
+          <p className="text-xs text-white/50 mb-2">Um domínio por linha.</p>
           <textarea
             value={awaitingApproval} onChange={(e) => setAwaitingApproval(e.target.value)}
             rows={5}
@@ -598,12 +598,12 @@ export function BrandBiddingClient() {
         </div>
 
         {/* 7. Resolvidos - último, conforme modelo */}
-        <div className="rounded-xl border border-border bg-white p-5">
+        <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
           <SectionLabel number={7} title="Agressores Resolvidos (Sucesso)" />
-          <p className="text-xs text-muted-foreground mb-2 italic">
+          <p className="text-xs text-white/50 mb-2 italic">
             Os seguintes agressores tiveram suas atividades contidas com sucesso nos últimos dias:
           </p>
-          <p className="text-xs text-muted-foreground mb-2">Um domínio por linha.</p>
+          <p className="text-xs text-white/50 mb-2">Um domínio por linha.</p>
           <textarea
             value={resolved} onChange={(e) => setResolved(e.target.value)}
             rows={5}
@@ -615,13 +615,13 @@ export function BrandBiddingClient() {
         <div className="flex justify-between pt-1">
           <button
             onClick={() => setStep(1)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:text-white hover:bg-white/10 transition-all"
           >
             <ChevronLeft size={15} />Voltar
           </button>
           <button
             onClick={() => setStep(3)}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold bg-primary text-white hover:bg-primary/90 transition-all shadow-sm"
+            className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:opacity-90 transition-all shadow-sm"
           >
             Ver Preview<Eye size={15} />
           </button>
@@ -639,15 +639,15 @@ export function BrandBiddingClient() {
       <div className="space-y-4">
         <div className="flex items-center justify-between px-6 pt-6">
           <div>
-            <h3 className="font-semibold text-foreground">Preview do Relatório</h3>
-            <p className="text-xs text-muted-foreground mt-0.5">
+            <h3 className="font-semibold text-white">Preview do Relatório</h3>
+            <p className="text-xs text-white/50 mt-0.5">
               Revise o conteúdo. Use os botões "Regenerar análise" se quiser pedir uma nova versão da IA.
             </p>
           </div>
           <button
             onClick={downloadPdf}
             disabled={generatingPdf}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-white hover:bg-primary/90 transition-all shadow-sm disabled:opacity-60"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:opacity-90 transition-all shadow-sm disabled:opacity-60"
           >
             {generatingPdf ? <Loader2 size={14} className="animate-spin" /> : <FileDown size={14} />}
             {generatingPdf ? "Gerando..." : "Baixar PDF"}
@@ -655,7 +655,7 @@ export function BrandBiddingClient() {
         </div>
 
         {/* Documento simulado */}
-        <div className="rounded-xl border border-border bg-white overflow-hidden shadow-sm">
+        <div className="rounded-xl border border-white/10 overflow-hidden">
           {/* Header */}
           <div className="branddi-gradient px-8 py-6">
             <div className="flex items-center gap-2 mb-1">
@@ -667,12 +667,12 @@ export function BrandBiddingClient() {
             {periodLabel && <p className="text-white/60 text-xs mt-0.5">Período: {periodLabel}</p>}
           </div>
 
-          <div className="py-6 space-y-6 max-h-[850px] overflow-y-auto overflow-x-hidden">
+          <div className="py-6 space-y-6 max-h-[850px] overflow-y-auto overflow-x-hidden" style={{ background: "rgba(10,34,53,0.8)" }}>
             {/* ── cada seção: textos com px-8, imagens sem padding = full-width real ── */}
 
             {/* Introdução */}
             <div className="px-8">
-              <p className="text-sm text-foreground leading-relaxed font-[Inter,sans-serif]">
+              <p className="text-sm text-white leading-relaxed font-[Inter,sans-serif]">
                 Este documento apresenta a consolidação{" "}
                 {reportType === "Semanal" ? "semanal" : "quinzenal"} dos resultados e o status das ações de monitoramento e contenção de Brand Bidding, garantindo a proteção da sua marca nos canais de busca.
               </p>
@@ -680,8 +680,8 @@ export function BrandBiddingClient() {
 
             {/* 1. Métricas */}
             <div className="px-8">
-              <h3 className="font-bold text-primary mb-1.5 text-sm font-[Inter,sans-serif]">1. Métricas Consolidadas (Todo o período)</h3>
-              <p className="text-xs text-muted-foreground mb-3 italic font-[Inter,sans-serif]">
+              <h3 className="font-bold text-white mb-1.5 text-sm font-[Inter,sans-serif]">1. Métricas Consolidadas (Todo o período)</h3>
+              <p className="text-xs text-white/50 mb-3 italic font-[Inter,sans-serif]">
                 A tabela a seguir resume os principais indicadores de Brand Bidding.
               </p>
               <div className="grid grid-cols-6 gap-2">
@@ -693,9 +693,9 @@ export function BrandBiddingClient() {
                   { label: "Eliminados", value: metrics.eliminados },
                   { label: "Notificações Enviadas", value: metrics.notificacoesEnviadas },
                 ].map(({ label, value }) => (
-                  <div key={label} className="rounded-xl border border-border bg-secondary/40 p-3 text-center">
-                    <div className="text-xl font-bold text-primary font-[Inter,sans-serif]">{value || "—"}</div>
-                    <div className="text-[10px] text-muted-foreground mt-1 leading-tight font-[Inter,sans-serif]">{label}</div>
+                  <div key={label} className="rounded-xl border border-white/10 bg-white/5 p-3 text-center">
+                    <div className="text-xl font-bold text-cyan-300 font-[Inter,sans-serif]">{value || "—"}</div>
+                    <div className="text-[10px] text-white/40 mt-1 leading-tight font-[Inter,sans-serif]">{label}</div>
                   </div>
                 ))}
               </div>
@@ -705,12 +705,12 @@ export function BrandBiddingClient() {
             <div>
               <div className="px-8">
                 <div className="flex items-center justify-between mb-1.5">
-                  <h3 className="font-bold text-primary text-sm font-[Inter,sans-serif]">2. Agressores Identificados</h3>
+                  <h3 className="font-bold text-white text-sm font-[Inter,sans-serif]">2. Agressores Identificados</h3>
                   {imageAgressores && (
                     <button
                       onClick={regenerateAgressores}
                       disabled={analyzingAgressores}
-                      className="flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors disabled:opacity-50 font-[Inter,sans-serif]"
+                      className="flex items-center gap-1.5 text-xs font-medium text-cyan-400 hover:text-cyan-300 transition-colors disabled:opacity-50 font-[Inter,sans-serif]"
                     >
                       {analyzingAgressores ? <Loader2 size={11} className="animate-spin" /> : <RefreshCw size={11} />}
                       {analyzingAgressores ? "Gerando..." : "Pedir nova análise"}
@@ -723,14 +723,14 @@ export function BrandBiddingClient() {
                   </p>
                 )}
                 {analyzingAgressores ? (
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground italic mb-3 font-[Inter,sans-serif]">
+                  <div className="flex items-center gap-2 text-sm text-white/50 italic mb-3 font-[Inter,sans-serif]">
                     <Loader2 size={14} className="animate-spin text-emerald" />
                     Gerando análise com IA...
                   </div>
                 ) : (
-                  <p className="text-sm text-foreground leading-relaxed mb-3 font-[Inter,sans-serif]">
+                  <p className="text-sm text-white leading-relaxed mb-3 font-[Inter,sans-serif]">
                     {agressoresAnalysis || (
-                      <span className="text-muted-foreground italic">
+                      <span className="text-white/40 italic">
                         Cole um print do gráfico de agressores no passo 1 para gerar a análise.
                       </span>
                     )}
@@ -738,7 +738,7 @@ export function BrandBiddingClient() {
                 )}
                 {agressoresOptions && !analyzingAgressores && (
                   <details className="text-xs mb-3">
-                    <summary className="cursor-pointer text-primary font-medium hover:text-primary/80 font-[Inter,sans-serif]">
+                    <summary className="cursor-pointer text-cyan-400 font-medium hover:text-cyan-300 font-[Inter,sans-serif]">
                       Ver outra opção de análise
                     </summary>
                     <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -749,12 +749,12 @@ export function BrandBiddingClient() {
                           className={cn(
                             "text-left p-2 rounded-lg border text-xs transition font-[Inter,sans-serif]",
                             agressoresAnalysis.trim() === agressoresOptions[k].trim()
-                              ? "border-primary bg-primary/5"
-                              : "border-border hover:border-primary/40"
+                              ? "border-cyan-400 bg-cyan-400/5"
+                              : "border-white/20 hover:border-cyan-400/40"
                           )}
                         >
-                          <span className="font-bold text-primary text-[10px] uppercase">Exemplo {i + 1}</span>
-                          <p className="text-foreground mt-1">{agressoresOptions[k]}</p>
+                          <span className="font-bold text-cyan-400 text-[10px] uppercase">Exemplo {i + 1}</span>
+                          <p className="text-white mt-1">{agressoresOptions[k]}</p>
                         </button>
                       ))}
                     </div>
@@ -778,12 +778,12 @@ export function BrandBiddingClient() {
             <div>
               <div className="px-8">
                 <div className="flex items-center justify-between mb-1.5">
-                  <h3 className="font-bold text-primary text-sm font-[Inter,sans-serif]">3. Análise de Ofensores (Heatmap)</h3>
+                  <h3 className="font-bold text-white text-sm font-[Inter,sans-serif]">3. Análise de Ofensores (Heatmap)</h3>
                   {imageHeatmap && (
                     <button
                       onClick={regenerateHeatmap}
                       disabled={analyzingHeatmap}
-                      className="flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors disabled:opacity-50 font-[Inter,sans-serif]"
+                      className="flex items-center gap-1.5 text-xs font-medium text-cyan-400 hover:text-cyan-300 transition-colors disabled:opacity-50 font-[Inter,sans-serif]"
                     >
                       {analyzingHeatmap ? <Loader2 size={11} className="animate-spin" /> : <RefreshCw size={11} />}
                       {analyzingHeatmap ? "Gerando..." : "Pedir nova análise"}
@@ -797,14 +797,14 @@ export function BrandBiddingClient() {
                 )}
                 {/* Análise ACIMA do gráfico */}
                 {analyzingHeatmap ? (
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground italic mb-3 font-[Inter,sans-serif]">
+                  <div className="flex items-center gap-2 text-sm text-white/50 italic mb-3 font-[Inter,sans-serif]">
                     <Loader2 size={14} className="animate-spin text-emerald" />
                     Gerando análise com IA...
                   </div>
                 ) : (
-                  <p className="text-sm text-foreground leading-relaxed mb-3 italic font-[Inter,sans-serif]">
+                  <p className="text-sm text-white leading-relaxed mb-3 italic font-[Inter,sans-serif]">
                     {heatmapAnalysis || (
-                      <span className="text-muted-foreground italic">
+                      <span className="text-white/40 italic">
                         Cole um print do heatmap no passo 1 para gerar a análise.
                       </span>
                     )}
@@ -812,7 +812,7 @@ export function BrandBiddingClient() {
                 )}
                 {heatmapOptions && !analyzingHeatmap && (
                   <details className="text-xs mb-3">
-                    <summary className="cursor-pointer text-primary font-medium hover:text-primary/80 font-[Inter,sans-serif]">
+                    <summary className="cursor-pointer text-cyan-400 font-medium hover:text-cyan-300 font-[Inter,sans-serif]">
                       Ver outra opção de análise
                     </summary>
                     <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -823,12 +823,12 @@ export function BrandBiddingClient() {
                           className={cn(
                             "text-left p-2 rounded-lg border text-xs transition font-[Inter,sans-serif]",
                             heatmapAnalysis.trim() === heatmapOptions[k].trim()
-                              ? "border-primary bg-primary/5"
-                              : "border-border hover:border-primary/40"
+                              ? "border-cyan-400 bg-cyan-400/5"
+                              : "border-white/20 hover:border-cyan-400/40"
                           )}
                         >
-                          <span className="font-bold text-primary text-[10px] uppercase">Exemplo {i + 1}</span>
-                          <p className="text-foreground mt-1">{heatmapOptions[k]}</p>
+                          <span className="font-bold text-cyan-400 text-[10px] uppercase">Exemplo {i + 1}</span>
+                          <p className="text-white mt-1">{heatmapOptions[k]}</p>
                         </button>
                       ))}
                     </div>
@@ -850,10 +850,10 @@ export function BrandBiddingClient() {
               {heatmap.some((h) => h.nome.trim()) && (
                 <div className="px-8 space-y-1.5">
                   {heatmap.filter((h) => h.nome.trim()).map((h, i) => (
-                    <div key={i} className="flex items-center gap-3 px-3 py-1.5 rounded-lg bg-secondary/40 border border-border/60">
+                    <div key={i} className="flex items-center gap-3 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
                       <span className="text-base w-6 shrink-0 text-center">{h.emoji || "·"}</span>
-                      <span className="text-xs font-mono font-bold text-primary w-14 shrink-0">{h.score}</span>
-                      <span className="text-sm text-foreground font-[Inter,sans-serif]">{h.nome}</span>
+                      <span className="text-xs font-mono font-bold text-cyan-300 w-14 shrink-0">{h.score}</span>
+                      <span className="text-sm text-white font-[Inter,sans-serif]">{h.nome}</span>
                     </div>
                   ))}
                 </div>
@@ -863,15 +863,15 @@ export function BrandBiddingClient() {
             {/* 4. Contenção */}
             {contentionActions.some((a) => a.domain.trim()) && (
               <div className="px-8">
-                <h3 className="font-bold text-primary mb-1.5 text-sm font-[Inter,sans-serif]">4. Status das Ações de Contenção</h3>
-                <p className="text-xs text-muted-foreground mb-3 italic font-[Inter,sans-serif]">
+                <h3 className="font-bold text-white mb-1.5 text-sm font-[Inter,sans-serif]">4. Status das Ações de Contenção</h3>
+                <p className="text-xs text-white/50 mb-3 italic font-[Inter,sans-serif]">
                   Detalhe do andamento das principais tratativas com agressores:
                 </p>
                 <ul className="space-y-2">
                   {contentionActions.filter((a) => a.domain.trim()).map((a, i) => (
-                    <li key={i} className="text-sm text-foreground font-[Inter,sans-serif]">
+                    <li key={i} className="text-sm text-white font-[Inter,sans-serif]">
                       <span className="font-semibold">{a.domain}:</span>{" "}
-                      <span className="text-muted-foreground">{a.status}</span>
+                      <span className="text-white/50">{a.status}</span>
                     </li>
                   ))}
                 </ul>
@@ -881,24 +881,24 @@ export function BrandBiddingClient() {
             {/* 5. Standby */}
             {standbyCases.some((c) => c.agressor.trim()) && (
               <div className="px-8">
-                <h3 className="font-bold text-primary mb-1.5 text-sm font-[Inter,sans-serif]">5. Casos em Standby e em Notificação Extrajudicial</h3>
-                <p className="text-xs text-muted-foreground mb-3 italic font-[Inter,sans-serif]">
+                <h3 className="font-bold text-white mb-1.5 text-sm font-[Inter,sans-serif]">5. Casos em Standby e em Notificação Extrajudicial</h3>
+                <p className="text-xs text-white/50 mb-3 italic font-[Inter,sans-serif]">
                   Os seguintes casos estão em standby ou em processo de notificação extrajudicial, após esgotamento das tentativas de contato direto:
                 </p>
                 <table className="w-full text-sm border-collapse">
                   <thead>
-                    <tr className="border-b border-border">
-                      <th className="text-left py-2 px-3 text-xs font-semibold text-muted-foreground font-[Inter,sans-serif]">Agressor</th>
-                      <th className="text-left py-2 px-3 text-xs font-semibold text-muted-foreground font-[Inter,sans-serif]">Status</th>
-                      <th className="text-left py-2 px-3 text-xs font-semibold text-muted-foreground font-[Inter,sans-serif]">Próxima Ação</th>
+                    <tr className="border-b border-white/10">
+                      <th className="text-left py-2 px-3 text-xs font-semibold text-white/60 font-[Inter,sans-serif]">Agressor</th>
+                      <th className="text-left py-2 px-3 text-xs font-semibold text-white/60 font-[Inter,sans-serif]">Status</th>
+                      <th className="text-left py-2 px-3 text-xs font-semibold text-white/60 font-[Inter,sans-serif]">Próxima Ação</th>
                     </tr>
                   </thead>
                   <tbody>
                     {standbyCases.filter((c) => c.agressor.trim()).map((c, i) => (
-                      <tr key={i} className="border-b border-border/50">
+                      <tr key={i} className="border-b border-white/10/50">
                         <td className="py-2 px-3 font-medium font-[Inter,sans-serif]">{c.agressor}</td>
-                        <td className="py-2 px-3 text-muted-foreground font-[Inter,sans-serif]">{c.status}</td>
-                        <td className="py-2 px-3 text-muted-foreground font-[Inter,sans-serif]">{c.nextAction}</td>
+                        <td className="py-2 px-3 text-white/60 font-[Inter,sans-serif]">{c.status}</td>
+                        <td className="py-2 px-3 text-white/60 font-[Inter,sans-serif]">{c.nextAction}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -909,13 +909,13 @@ export function BrandBiddingClient() {
             {/* 6. Aguardando aprovação */}
             {awaitingApproval.trim() && (
               <div className="px-8">
-                <h3 className="font-bold text-primary mb-1.5 text-sm font-[Inter,sans-serif]">6. Agressores Aguardando Aprovação</h3>
-                <p className="text-xs text-muted-foreground mb-2 italic font-[Inter,sans-serif]">
+                <h3 className="font-bold text-white mb-1.5 text-sm font-[Inter,sans-serif]">6. Agressores Aguardando Aprovação</h3>
+                <p className="text-xs text-white/50 mb-2 italic font-[Inter,sans-serif]">
                   A lista abaixo inclui os agressores recém-identificados que aguardam aprovação para o início das tratativas.
                 </p>
                 <ul className="space-y-1">
                   {awaitingApproval.split("\n").filter(Boolean).map((d, i) => (
-                    <li key={i} className="text-sm text-foreground font-[Inter,sans-serif]">• {d.trim()}</li>
+                    <li key={i} className="text-sm text-white font-[Inter,sans-serif]">• {d.trim()}</li>
                   ))}
                 </ul>
               </div>
@@ -924,13 +924,13 @@ export function BrandBiddingClient() {
             {/* 7. Resolvidos */}
             {resolved.trim() && (
               <div className="px-8 pb-6">
-                <h3 className="font-bold text-primary mb-1.5 text-sm font-[Inter,sans-serif]">7. Agressores Resolvidos (Sucesso)</h3>
-                <p className="text-xs text-muted-foreground mb-2 italic font-[Inter,sans-serif]">
+                <h3 className="font-bold text-white mb-1.5 text-sm font-[Inter,sans-serif]">7. Agressores Resolvidos (Sucesso)</h3>
+                <p className="text-xs text-white/50 mb-2 italic font-[Inter,sans-serif]">
                   Os seguintes agressores tiveram suas atividades contidas com sucesso nos últimos dias:
                 </p>
                 <ul className="space-y-1">
                   {resolved.split("\n").filter(Boolean).map((d, i) => (
-                    <li key={i} className="text-sm text-foreground font-[Inter,sans-serif]">• {d.trim()}</li>
+                    <li key={i} className="text-sm text-white font-[Inter,sans-serif]">• {d.trim()}</li>
                   ))}
                 </ul>
               </div>
@@ -941,14 +941,14 @@ export function BrandBiddingClient() {
         <div className="flex justify-between px-6 pb-6 pt-2">
           <button
             onClick={() => setStep(2)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:text-white hover:bg-white/10 transition-all"
           >
             <ChevronLeft size={15} />Voltar
           </button>
           <button
             onClick={downloadPdf}
             disabled={generatingPdf}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold bg-primary text-white hover:bg-primary/90 transition-all shadow-sm disabled:opacity-60"
+            className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:opacity-90 transition-all shadow-sm disabled:opacity-60"
           >
             {generatingPdf ? <Loader2 size={14} className="animate-spin" /> : <FileDown size={14} />}
             {generatingPdf ? "Gerando..." : "Baixar PDF"}
@@ -959,12 +959,12 @@ export function BrandBiddingClient() {
   }
 
   return (
-    <div className="flex flex-col flex-1 bg-background overflow-hidden">
+    <div className="flex flex-col flex-1 overflow-hidden" style={{ background: "linear-gradient(135deg, #061520 0%, #0a2235 40%, #0d3349 70%, #0a4d5c 100%)" }}>
       <div className="flex-1 overflow-y-auto p-6">
         {step !== 3 ? (
           <div className="max-w-3xl mx-auto">
             <StepIndicator current={step} />
-            <div className="bg-white rounded-2xl border border-border shadow-sm p-6">
+            <div className="rounded-2xl border border-white/10 p-6" style={{ background: "rgba(255,255,255,0.03)" }}>
               {step === 1 && renderStep1()}
               {step === 2 && renderStep2()}
             </div>
@@ -972,7 +972,7 @@ export function BrandBiddingClient() {
         ) : (
           <div className="max-w-4xl mx-auto">
             <StepIndicator current={step} />
-            <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
+            <div className="rounded-2xl border border-white/10 overflow-hidden" style={{ background: "rgba(255,255,255,0.03)" }}>
               {renderStep3()}
             </div>
           </div>
