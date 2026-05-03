@@ -602,16 +602,26 @@ function addAgressoresSlide(
   const sideNote = variant === "total" ? data.agressoresTotalSideNote : data.agressoresSemanalSideNote;
   const image = variant === "total" ? data.agressoresTotalImage : data.agressoresSemanalImage;
 
+  // Análise ACIMA do gráfico
   if (analysis) {
     slide.addText(analysis, {
-      x: 0.4, y: 1.4, w: 12.5, h: 0.6,
+      x: 0.4, y: 1.35, w: 12.5, h: 0.55,
       fontFace: FONT_BODY, fontSize: 12, color: COLORS.textDark,
     });
   }
-  // Gráfico com frame ciano centralizado
-  addChartFrame(slide, image, 0.6, 2.2, 9, 4.8);
+
+  // Gráfico: esticado na largura total do slide, centralizado verticalmente
+  // Slide = 13.333 × 7.5 in. Análise termina ~1.9, margem baixo ~0.3 → altura disponível ~5.3
+  const chartX = 0.35;
+  const chartY = analysis ? 2.0 : 1.5;
+  const chartW = 12.63; // quase borda a borda (13.333 - 0.35*2)
+  const chartH = 5.1;   // alto o suficiente para os números ficarem visíveis
+
+  addChartFrame(slide, image, chartX, chartY, chartW, chartH);
+
+  // Nota lateral (se houver) — posicionada à direita DENTRO do frame
   if (sideNote) {
-    addSideNote(slide, sideNote, 9.8, 3.5, 3.2, 1.5);
+    addSideNote(slide, sideNote, chartX + chartW - 3.4, chartY + 0.3, 3.2, 1.5);
   }
 }
 
