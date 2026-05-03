@@ -140,14 +140,14 @@ export function ChartSection({
 
           {preview ? (
             <>
-              {/* Imagem 100% largura, centralizada, sem corte lateral — igual ao modelo */}
-              <div className="w-full p-3">
+              {/* Imagem 100% largura, sem corte, proporcional — igual ao modelo */}
+              <div className="w-full p-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={preview}
                   alt={uploadLabel}
                   className="w-full h-auto object-contain rounded-lg"
-                  style={{ display: "block", margin: "0 auto", maxHeight: "320px" }}
+                  style={{ display: "block" }}
                 />
               </div>
 
