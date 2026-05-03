@@ -772,7 +772,6 @@ export function BrandBiddingClient() {
                   />
                 </div>
               )}
-              )}
             </div>
 
             {/* 3. Heatmap */}
@@ -846,7 +845,6 @@ export function BrandBiddingClient() {
                     style={{ maxWidth: "100%", height: "auto", objectFit: "contain", display: "block" }}
                   />
                 </div>
-              )}
               )}
               {/* Lista com emojis — com padding */}
               {heatmap.some((h) => h.nome.trim()) && (
