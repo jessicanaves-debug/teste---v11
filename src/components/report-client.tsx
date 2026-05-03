@@ -766,9 +766,9 @@ export function BrandBiddingClient() {
                 <div
                   style={{
                     width: "100%",
-                    aspectRatio: "16/7",
+                    aspectRatio: "16/6",
                     backgroundImage: `url(${imageAgressoresPreview})`,
-                    backgroundSize: "contain",
+                    backgroundSize: "100% 100%",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
                     backgroundColor: "#ffffff",
@@ -846,9 +846,9 @@ export function BrandBiddingClient() {
                 <div
                   style={{
                     width: "100%",
-                    aspectRatio: "16/7",
+                    aspectRatio: "16/6",
                     backgroundImage: `url(${imageHeatmapPreview})`,
-                    backgroundSize: "contain",
+                    backgroundSize: "100% 100%",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
                     backgroundColor: "#ffffff",
