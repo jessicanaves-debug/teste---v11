@@ -156,8 +156,7 @@ export function ApresentacaoMensalClient() {
 
   const termosComposto = useChart();
   const termoPuro = useChart();
-  const termos2Composto = useChart();
-  const termos2Puro = useChart();
+  
 
   const shareKeyword = useChart();
   const shareAgressor = useChart();
@@ -237,7 +236,7 @@ export function ApresentacaoMensalClient() {
 
   // Análises COMPARATIVAS dos termos (1 por slide)
   const [termosAnalysis, setTermosAnalysis] = useState("");
-  const [termos2Analysis, setTermos2Analysis] = useState("");
+  
 
   // SAVING
   const [saving, setSaving] = useState({
@@ -253,7 +252,7 @@ export function ApresentacaoMensalClient() {
   type SlideKey =
     | "bigNumbersTotal" | "bigNumbersMes"
     | "branddiScore" | "agressoresTotal" | "agressoresSemanal"
-    | "termos1" | "termos2" | "slideVazio"
+    | "termos1" | "slideVazio"
     | "shareKeyword" | "shareAgressor"
     | "trademarkEvidencia" | "trademarkAprov"
     | "heatmap" | "evolucao"
@@ -263,7 +262,7 @@ export function ApresentacaoMensalClient() {
   const [slidesAtivos, setSlidesAtivos] = useState<Record<SlideKey, boolean>>({
     bigNumbersTotal: true, bigNumbersMes: true,
     branddiScore: true, agressoresTotal: true, agressoresSemanal: true,
-    termos1: true, termos2: true, slideVazio: true,
+    termos1: true, slideVazio: true,
     shareKeyword: true, shareAgressor: true,
     trademarkEvidencia: true, trademarkAprov: true,
     heatmap: true, evolucao: true,
@@ -280,7 +279,6 @@ export function ApresentacaoMensalClient() {
     | "branddiScoreChart"
     | "agressoresTotalChart" | "agressoresSemanalChart"
     | "termosCompostoChart" | "termoPuroChart"
-    | "termos2CompostoChart" | "termos2PuroChart"
     | "shareKeywordChart" | "shareAgressorChart"
     | "trademarkShareChart" | "trademarkAprovChart"
     | "trademarkEvid1" | "trademarkEvid2"
@@ -296,7 +294,6 @@ export function ApresentacaoMensalClient() {
     branddiScoreChart: true,
     agressoresTotalChart: true, agressoresSemanalChart: true,
     termosCompostoChart: true, termoPuroChart: true,
-    termos2CompostoChart: true, termos2PuroChart: true,
     shareKeywordChart: true, shareAgressorChart: true,
     trademarkShareChart: true, trademarkAprovChart: true,
     trademarkEvid1: true, trademarkEvid2: true,
@@ -347,7 +344,7 @@ export function ApresentacaoMensalClient() {
   useEffect(() => {
     return () => {
       [branddiScore.preview, agressoresTotal.preview, agressoresSemanal.preview,
-       termosComposto.preview, termoPuro.preview, termos2Composto.preview, termos2Puro.preview,
+       termosComposto.preview, termoPuro.preview,
        shareKeyword.preview, shareAgressor.preview,
        trademarkShare.preview, trademarkAprov.preview, heatmap.preview]
         .forEach((p) => p && URL.revokeObjectURL(p));
@@ -516,10 +513,6 @@ export function ApresentacaoMensalClient() {
         termosCompostoImage: await chartImg(termosComposto.file, "termosCompostoChart"),
         termoPuroImage: await chartImg(termoPuro.file, "termoPuroChart"),
         termosAnalysis: (chartsAtivos.termosCompostoChart || chartsAtivos.termoPuroChart) ? termosAnalysis : "",
-
-        termos2CompostoImage: await chartImg(termos2Composto.file, "termos2CompostoChart"),
-        termos2PuroImage: await chartImg(termos2Puro.file, "termos2PuroChart"),
-        termos2Analysis: (chartsAtivos.termos2CompostoChart || chartsAtivos.termos2PuroChart) ? termos2Analysis : "",
 
         shareKeywordImage: await chartImg(shareKeyword.file, "shareKeywordChart"),
         shareKeywordAnalysis: chartTxt(shareKeyword.analysis, "shareKeywordChart"),
@@ -892,39 +885,6 @@ export function ApresentacaoMensalClient() {
           )}
         </div>
 
-        {/* Análise de Termos - Slide 9 */}
-        <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-5">
-          <div className="flex items-center justify-between mb-3">
-            <SectionLabel number="9" title="Análise de Termos - V2 (visualização alt.)" />
-            <SlideToggle slideKey="termos2" label="Slide 9" />
-          </div>
-          {slidesAtivos.termos2 && (
-            <>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-xs font-semibold text-cyan-300 mb-2">Todos os termos (V2)</p>
-                  <ChartSection {...chartProps(termos2Composto, "termos_composto", "Print termos compostos V2", "agressores", "termos2CompostoChart")} />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-cyan-300 mb-2">Termo puro V2</p>
-                  <ChartSection {...chartProps(termos2Puro, "termos_puro", "Print termo puro V2", "agressores", "termos2PuroChart")} />
-                </div>
-              </div>
-              <div className="mt-4 rounded-xl border border-cyan-400/20 bg-cyan-500/5 p-3">
-                <p className="text-[11px] font-semibold text-cyan-300 mb-2 flex items-center gap-1.5">
-                  <span>✨</span> Análise comparativa V2
-                </p>
-                <textarea
-                  value={termos2Analysis}
-                  onChange={(e) => setTermos2Analysis(e.target.value)}
-                  rows={3}
-                  placeholder="Análise comparativa dos dois gráficos de termos..."
-                  className="w-full rounded-lg border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-3 py-2 text-xs resize-none focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
-                />
-              </div>
-            </>
-          )}
-        </div>
 
         <div className="flex justify-between pt-1">
           <button onClick={() => setStep(1)} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:text-white hover:bg-white/10 transition-all">
@@ -1817,23 +1777,6 @@ export function ApresentacaoMensalClient() {
         ),
       });
     }
-    if (slidesAtivos.termos2) {
-      n++;
-      list.push({
-        num: n, title: "Termos V2",
-        render: () => (
-          <div className="absolute inset-0 p-3">
-            <SlideChromePrev />
-            <h3 className="font-bold mt-3" style={{ color: "#0D3349", fontSize: "16px" }}>Análise de Termos</h3>
-            <div className="grid grid-cols-2 gap-2 mt-2 absolute top-10 left-3 right-3 bottom-2">
-              <ChartFrame src={termos2Composto.preview} />
-              <ChartFrame src={termos2Puro.preview} />
-            </div>
-          </div>
-        ),
-      });
-    }
-
     if (slidesAtivos.slideVazio) {
       n++;
       list.push({
