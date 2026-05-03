@@ -104,38 +104,37 @@ export async function generateBbPdf(params: GenerateBbPdfParams): Promise<void> 
   ]);
 
   const HEADER_HEIGHT = 32; // altura do header azul em mm
-  const CONTENT_TOP = HEADER_HEIGHT + 12; // primeira linha de conteúdo após header
-  const CONTENT_BOTTOM = pageHeight - 18; // limite antes do footer
+  const CONTENT_TOP_OTHER = 14;           // margem do topo nas páginas seguintes (sem header)
+  const CONTENT_BOTTOM = pageHeight - 18; // limite antes do rodapé
 
   let y = 0;
-  let isFirstPage = true;
 
-  // Desenha header + watermark em página atual
-  function drawPageChrome() {
-    // Header azul com logo Branddi (imagem se disponível, senão retângulo sólido)
+  // Página 1: header azul com logo + watermark
+  function drawFirstPageChrome() {
     if (headerImg) {
       doc.addImage(headerImg, "PNG", 0, 0, pageWidth, HEADER_HEIGHT);
     } else {
       doc.setFillColor(...BRANDDI_DARK);
       doc.rect(0, 0, pageWidth, HEADER_HEIGHT, "F");
     }
+    drawWatermark();
+  }
 
-    // Marca d'água no canto inferior direito (logo Branddi grande, levemente translúcida)
+  // Páginas 2+: SOMENTE watermark (sem header azul)
+  function drawWatermark() {
     if (watermarkImg) {
-      const wmSize = 70; // tamanho em mm
-      const wmX = pageWidth - wmSize + 5; // levemente cortada na borda direita
+      const wmSize = 70;
+      const wmX = pageWidth - wmSize + 5;
       const wmY = pageHeight - wmSize - 10;
-      // jsPDF não tem opacity nativa fácil; usamos GState pra aplicar transparência
       try {
-        // @ts-ignore - GState exists at runtime mas tipos podem variar
+        // @ts-ignore
         const gstate = new doc.GState({ opacity: 0.12 });
-        // @ts-ignore - setGState exists at runtime
+        // @ts-ignore
         doc.setGState(gstate);
         doc.addImage(watermarkImg, "PNG", wmX, wmY, wmSize, wmSize);
-        // @ts-ignore - reset opacity
+        // @ts-ignore
         doc.setGState(new doc.GState({ opacity: 1 }));
       } catch {
-        // Fallback: adiciona sem transparência (caso GState não esteja disponível)
         doc.addImage(watermarkImg, "PNG", wmX, wmY, wmSize, wmSize);
       }
     }
@@ -143,8 +142,8 @@ export async function generateBbPdf(params: GenerateBbPdfParams): Promise<void> 
 
   function newPage() {
     doc.addPage();
-    drawPageChrome();
-    y = CONTENT_TOP;
+    drawWatermark(); // páginas seguintes: só watermark, sem header azul
+    y = CONTENT_TOP_OTHER;
   }
 
   function ensureSpace(needed: number) {
@@ -153,9 +152,15 @@ export async function generateBbPdf(params: GenerateBbPdfParams): Promise<void> 
     }
   }
 
+  // Fonte padrão Inter — jsPDF não suporta fontes custom sem embed,
+  // usamos helvetica com configurações que imitam Inter Normal (peso 400, sem condensado)
+  function setBodyFont(bold = false) {
+    doc.setFont("helvetica", bold ? "bold" : "normal");
+  }
+
   function addParagraph(text: string, fontSize = 10, color = BRANDDI_TEXT) {
     doc.setFontSize(fontSize);
-    doc.setFont("helvetica", "normal");
+    setBodyFont(false);
     doc.setTextColor(...color);
     const lines = doc.splitTextToSize(text, pageWidth - 2 * margin);
     ensureSpace(lines.length * (fontSize * 0.45) + 2);
@@ -166,7 +171,7 @@ export async function generateBbPdf(params: GenerateBbPdfParams): Promise<void> 
   function addSectionTitle(text: string) {
     ensureSpace(12);
     doc.setFontSize(13);
-    doc.setFont("helvetica", "bold");
+    setBodyFont(true);
     doc.setTextColor(...BRANDDI_DARK);
     doc.text(text, margin, y);
     y += 7;
@@ -177,12 +182,11 @@ export async function generateBbPdf(params: GenerateBbPdfParams): Promise<void> 
   }
 
   // ─── Página 1: header + título ───
-  drawPageChrome();
-  isFirstPage = false;
+  drawFirstPageChrome(); // só aqui o header azul
 
   // Título do relatório centralizado abaixo do header
   doc.setFontSize(20);
-  doc.setFont("helvetica", "bold");
+  setBodyFont(true);
   doc.setTextColor(...BRANDDI_DARK);
   const titulo = `Relatório ${reportType} de Brand Bidding`;
   doc.text(titulo, pageWidth / 2, HEADER_HEIGHT + 14, { align: "center" });
@@ -192,7 +196,7 @@ export async function generateBbPdf(params: GenerateBbPdfParams): Promise<void> 
   // Cliente e período em linha discreta
   if (clientName || periodLabel) {
     doc.setFontSize(10);
-    doc.setFont("helvetica", "normal");
+    setBodyFont(false);
     doc.setTextColor(...MUTED);
     const subline = [clientName, periodLabel ? `Período: ${periodLabel}` : null]
       .filter(Boolean)
@@ -235,7 +239,7 @@ export async function generateBbPdf(params: GenerateBbPdfParams): Promise<void> 
     margin: { left: margin, right: margin },
     didDrawPage: () => {
       // Quando autoTable quebra página, ele dispara essa callback — re-desenha o chrome
-      if (!isFirstPage) drawPageChrome();
+      drawWatermark();
     },
   });
   // @ts-expect-error - lastAutoTable adicionado dinamicamente
@@ -320,7 +324,7 @@ export async function generateBbPdf(params: GenerateBbPdfParams): Promise<void> 
       theme: "striped",
       margin: { left: margin, right: margin },
       didDrawPage: () => {
-        if (!isFirstPage) drawPageChrome();
+        drawWatermark();
       },
     });
     // @ts-expect-error - lastAutoTable adicionado dinamicamente
@@ -385,7 +389,7 @@ export async function generateBbPdf(params: GenerateBbPdfParams): Promise<void> 
       theme: "striped",
       margin: { left: margin, right: margin },
       didDrawPage: () => {
-        if (!isFirstPage) drawPageChrome();
+        drawWatermark();
       },
     });
     // @ts-expect-error - lastAutoTable adicionado dinamicamente
