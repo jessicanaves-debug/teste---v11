@@ -1050,34 +1050,65 @@ export function ApresentacaoMensalClient() {
           {/* Gráfico — dominante */}
           <ChartSection {...chartProps(heatmap, "heatmap", "Print do heatmap", "heatmap", "heatmapChart")} />
 
-          {/* Classificação compacta abaixo */}
+          {/* Classificação — emoji na esquerda como no modelo Branddi */}
           <div className="mt-3 rounded-xl border border-white/8 bg-white/3 p-3">
             <p className="text-[10px] font-semibold text-white/40 uppercase tracking-wide mb-2">
-              Classificar agressores (opcional — aparece ao lado no slide)
+              Classificar agressores (opcional — aparece à esquerda no slide)
             </p>
-            <div className="grid grid-cols-2 gap-1.5">
-              {heatmapRows.map((row, i) => (
-                <div key={i} className="flex gap-1.5 items-center">
-                  <select value={row.icon}
-                    onChange={(e) => setHeatmapRows((prev) => prev.map((r, idx) => idx === i ? { ...r, icon: e.target.value as HeatmapIcon } : r))}
-                    className="rounded border border-white/10 bg-white text-gray-900 px-1.5 py-1 text-[11px] focus:outline-none focus:ring-1 focus:ring-cyan-400/30 w-28 shrink-0">
-                    {HEATMAP_ICONS.map((ic) => (
-                      <option key={ic} value={ic}>{HEATMAP_ICON_LABEL[ic]}</option>
-                    ))}
-                  </select>
-                  <input type="text" value={row.domain}
-                    onChange={(e) => setHeatmapRows((prev) => prev.map((r, idx) => idx === i ? { ...r, domain: e.target.value } : r))}
-                    placeholder="dominio.com.br"
-                    className="flex-1 min-w-0 rounded border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-2 py-1 text-[11px] focus:outline-none focus:ring-1 focus:ring-cyan-400/30" />
-                  <button onClick={() => setHeatmapRows((prev) => prev.filter((_, idx) => idx !== i))}
-                    className="w-6 h-6 flex items-center justify-center rounded text-white/20 hover:text-red-400 transition-colors shrink-0">
-                    <Trash2 size={10} />
-                  </button>
-                </div>
-              ))}
+            <div className="flex flex-col gap-1.5">
+              {heatmapRows.map((row, i) => {
+                const emojiMap: Record<HeatmapIcon, string> = {
+                  sucesso: "✅", whitelist: "🚫", tratativa: "🔔", parceiro: "🤝", nenhum: "⬜",
+                };
+                const emoji = emojiMap[row.icon];
+                return (
+                  <div key={i} className="flex gap-2 items-center">
+                    {/* Emoji na esquerda — badge visual */}
+                    <div className={cn(
+                      "w-8 h-8 flex items-center justify-center rounded-lg text-base shrink-0 border",
+                      row.icon === "sucesso" && "bg-green-500/20 border-green-500/40",
+                      row.icon === "whitelist" && "bg-red-500/20 border-red-500/40",
+                      row.icon === "tratativa" && "bg-yellow-500/20 border-yellow-500/40",
+                      row.icon === "parceiro" && "bg-blue-500/20 border-blue-500/40",
+                      row.icon === "nenhum" && "bg-white/5 border-white/10",
+                    )}>
+                      {emoji}
+                    </div>
+
+                    {/* Domínio */}
+                    <input
+                      type="text"
+                      value={row.domain}
+                      onChange={(e) => setHeatmapRows((prev) => prev.map((r, idx) => idx === i ? { ...r, domain: e.target.value } : r))}
+                      placeholder="dominio.com.br"
+                      className="flex-1 min-w-0 rounded border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 px-2 py-1 text-[11px] focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
+                    />
+
+                    {/* Select de classificação — compacto no final */}
+                    <select
+                      value={row.icon}
+                      onChange={(e) => setHeatmapRows((prev) => prev.map((r, idx) => idx === i ? { ...r, icon: e.target.value as HeatmapIcon } : r))}
+                      className="rounded border border-white/10 bg-white text-gray-900 px-1.5 py-1 text-[11px] focus:outline-none focus:ring-1 focus:ring-cyan-400/30 w-32 shrink-0"
+                    >
+                      {HEATMAP_ICONS.map((ic) => (
+                        <option key={ic} value={ic}>{HEATMAP_ICON_LABEL[ic]}</option>
+                      ))}
+                    </select>
+
+                    <button
+                      onClick={() => setHeatmapRows((prev) => prev.filter((_, idx) => idx !== i))}
+                      className="w-6 h-6 flex items-center justify-center rounded text-white/20 hover:text-red-400 transition-colors shrink-0"
+                    >
+                      <Trash2 size={10} />
+                    </button>
+                  </div>
+                );
+              })}
             </div>
-            <button onClick={() => setHeatmapRows([...heatmapRows, emptyHeatmapRow()])}
-              className="mt-2 flex items-center gap-1.5 text-xs text-cyan-400/70 hover:text-cyan-300 font-medium transition-colors">
+            <button
+              onClick={() => setHeatmapRows([...heatmapRows, emptyHeatmapRow()])}
+              className="mt-2 flex items-center gap-1.5 text-xs text-cyan-400/70 hover:text-cyan-300 font-medium transition-colors"
+            >
               <Plus size={12} />Adicionar linha
             </button>
           </div>
