@@ -667,7 +667,7 @@ export function BrandBiddingClient() {
             {periodLabel && <p className="text-white/60 text-xs mt-0.5">Período: {periodLabel}</p>}
           </div>
 
-          <div className="p-8 space-y-6 max-h-[700px] overflow-y-auto">
+          <div className="px-8 py-6 space-y-6 max-h-[800px] overflow-y-auto">
             {/* Introdução */}
             <p className="text-sm text-foreground leading-relaxed">
               Este documento apresenta a consolidação{" "}
@@ -756,7 +756,7 @@ export function BrandBiddingClient() {
                 </details>
               )}
               {imageAgressoresPreview && (
-                <div className="rounded-xl overflow-hidden border border-border bg-white">
+                <div className="rounded-xl overflow-hidden border border-border bg-white -mx-8">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={imageAgressoresPreview}
@@ -829,7 +829,7 @@ export function BrandBiddingClient() {
               )}
               {/* Gráfico */}
               {imageHeatmapPreview && (
-                <div className="rounded-xl overflow-hidden border border-border mb-3 bg-white">
+                <div className="rounded-xl overflow-hidden border border-border mb-3 bg-white -mx-8">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={imageHeatmapPreview}
@@ -955,7 +955,7 @@ export function BrandBiddingClient() {
   return (
     <div className="flex flex-col flex-1 bg-background overflow-hidden">
       <div className="flex-1 overflow-y-auto p-6">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <StepIndicator current={step} />
           <div className="bg-white rounded-2xl border border-border shadow-sm p-6">
             {step === 1 && renderStep1()}
