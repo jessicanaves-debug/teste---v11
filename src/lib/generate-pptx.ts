@@ -101,11 +101,6 @@ export interface PresentationData {
   termoPuroImage: string | null;
   termosAnalysis: string;          // análise comparativa que fala dos dois juntos
 
-  // Análise de Termos - Slide 9 (visualização alternativa)
-  termos2CompostoImage: string | null;
-  termos2PuroImage: string | null;
-  termos2Analysis: string;         // análise comparativa V2
-
   // Share - Slide 11 (keyword)
   shareKeywordImage: string | null;
   shareKeywordAnalysis: string;
@@ -629,15 +624,15 @@ function addAgressoresSlide(
 
 function addAnaliseTermosSlide(
   pptx: pptxgen, data: PresentationData,
-  variant: 1 | 2, logo: string | null, bg: string | null
+  variant: 1, logo: string | null, bg: string | null
 ) {
   const slide = pptx.addSlide();
   addSlideChrome(slide, logo, bg);
   addContentTitle(slide, "Análise de Termos", "Últimos 3 meses");
 
-  const compostoImg = variant === 1 ? data.termosCompostoImage : data.termos2CompostoImage;
-  const puroImg = variant === 1 ? data.termoPuroImage : data.termos2PuroImage;
-  const analysisTxt = variant === 1 ? data.termosAnalysis : data.termos2Analysis;
+  const compostoImg = data.termosCompostoImage;
+  const puroImg = data.termoPuroImage;
+  const analysisTxt = data.termosAnalysis;
 
   // Esquerda: Todos os termos
   slide.addText("Todos os termos", {
@@ -1358,7 +1353,7 @@ function addEncerramentoSlide(pptx: pptxgen, coverBg: string | null, logo: strin
 export type SlidesAtivos = {
   bigNumbersTotal: boolean; bigNumbersMes: boolean;
   branddiScore: boolean; agressoresTotal: boolean; agressoresSemanal: boolean;
-  termos1: boolean; termos2: boolean; slideVazio: boolean;
+  termos1: boolean; slideVazio: boolean;
   shareKeyword: boolean; shareAgressor: boolean;
   trademarkEvidencia: boolean; trademarkAprov: boolean;
   heatmap: boolean; evolucao: boolean;
@@ -1398,7 +1393,7 @@ export async function generatePresentationPpt(data: PresentationData, ativos?: P
   // 8
   if (on("termos1")) addAnaliseTermosSlide(pptx, data, 1, logoBase64, slideBg);
   // 9
-  if (on("termos2")) addAnaliseTermosSlide(pptx, data, 2, logoBase64, slideBg);
+  
   // 10
   if (on("slideVazio")) addEmptySlide(pptx, logoBase64, slideBg);
   // 11
