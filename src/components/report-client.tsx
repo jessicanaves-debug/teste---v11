@@ -761,16 +761,22 @@ export function BrandBiddingClient() {
                   </details>
                 )}
               </div>
-              {/* Imagem FULL-WIDTH — sem nenhum padding */}
+              {/* Imagem FULL-WIDTH real — background-image garante 100% sem corte */}
               {imageAgressoresPreview && (
-                <div className="w-full overflow-hidden border-y border-border bg-white mt-2">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={imageAgressoresPreview}
-                    alt="Gráfico de agressores"
-                    style={{ width: "100%", height: "auto", display: "block" }}
-                  />
-                </div>
+                <div
+                  style={{
+                    width: "100%",
+                    aspectRatio: "16/7",
+                    backgroundImage: `url(${imageAgressoresPreview})`,
+                    backgroundSize: "contain",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    backgroundColor: "#ffffff",
+                    marginTop: "8px",
+                    borderTop: "1px solid #e2e8f0",
+                    borderBottom: "1px solid #e2e8f0",
+                  }}
+                />
               )}
             </div>
 
@@ -835,16 +841,23 @@ export function BrandBiddingClient() {
                   </details>
                 )}
               </div>
-              {/* Imagem FULL-WIDTH */}
+              {/* Imagem FULL-WIDTH real */}
               {imageHeatmapPreview && (
-                <div className="w-full overflow-hidden border-y border-border bg-white mt-2 mb-3">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={imageHeatmapPreview}
-                    alt="Heatmap"
-                    style={{ width: "100%", height: "auto", display: "block" }}
-                  />
-                </div>
+                <div
+                  style={{
+                    width: "100%",
+                    aspectRatio: "16/7",
+                    backgroundImage: `url(${imageHeatmapPreview})`,
+                    backgroundSize: "contain",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    backgroundColor: "#ffffff",
+                    marginTop: "8px",
+                    marginBottom: "12px",
+                    borderTop: "1px solid #e2e8f0",
+                    borderBottom: "1px solid #e2e8f0",
+                  }}
+                />
               )}
               {/* Lista com emojis — com padding */}
               {heatmap.some((h) => h.nome.trim()) && (
@@ -961,14 +974,22 @@ export function BrandBiddingClient() {
   return (
     <div className="flex flex-col flex-1 bg-background overflow-hidden">
       <div className="flex-1 overflow-y-auto p-6">
-        <div className="max-w-5xl mx-auto">
-          <StepIndicator current={step} />
-          <div className={cn("bg-white rounded-2xl border border-border shadow-sm", step !== 3 && "p-6")}>
-            {step === 1 && renderStep1()}
-            {step === 2 && renderStep2()}
-            {step === 3 && renderStep3()}
+        {step !== 3 ? (
+          <div className="max-w-3xl mx-auto">
+            <StepIndicator current={step} />
+            <div className="bg-white rounded-2xl border border-border shadow-sm p-6">
+              {step === 1 && renderStep1()}
+              {step === 2 && renderStep2()}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="max-w-4xl mx-auto">
+            <StepIndicator current={step} />
+            <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
+              {renderStep3()}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
